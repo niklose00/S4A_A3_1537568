@@ -12,13 +12,13 @@ SEGMENT_ID = os.getenv("SEGMENT_ID")
 NEXT_SEGMENTS = os.getenv("NEXT_SEGMENTS", "")
 
 if not TRACK_ID or not SEGMENT_ID:
-    raise ValueError("❌ ERROR: TRACK_ID und SEGMENT_ID müssen als Umgebungsvariablen gesetzt sein!")
+    raise ValueError("ERROR: TRACK_ID und SEGMENT_ID müssen als Umgebungsvariablen gesetzt sein!")
 
 TOPIC_NAME = f"race.{TRACK_ID}.segment.{SEGMENT_ID}"
 NEXT_TOPICS = [f"race.{TRACK_ID}.segment.{seg.strip()}" for seg in NEXT_SEGMENTS.split(",") if seg.strip()]
 
-print(f"✅ Worker '{SEGMENT_ID}' läuft. Lauscht auf Topic: {TOPIC_NAME}")
-print(f"➡️  Weiterleitung an: {NEXT_TOPICS if NEXT_TOPICS else 'End-Segment (keine Weiterleitung)'}")
+print(f"Worker '{SEGMENT_ID}' läuft. Lauscht auf Topic: {TOPIC_NAME}")
+print(f"Weiterleitung an: {NEXT_TOPICS if NEXT_TOPICS else 'End-Segment (keine Weiterleitung)'}")
 
 # Kafka-Consumer und Producer mit Retry
 for i in range(10):
@@ -35,13 +35,13 @@ for i in range(10):
             bootstrap_servers=[KAFKA_BROKER],
             value_serializer=lambda v: json.dumps(v).encode('utf-8')
         )
-        print("✅ Kafka verbunden.")
+        print("Kafka verbunden.")
         break
     except Exception as e:
-        print(f"❌ Fehler bei Kafka-Verbindung: {e}")
+        print(f"Fehler bei Kafka-Verbindung: {e}")
         time.sleep(2)
 else:
-    print("❌ Kafka nicht erreichbar. Worker bricht ab.")
+    print("Kafka nicht erreichbar. Worker bricht ab.")
     exit(1)
 
 try:
@@ -55,18 +55,18 @@ try:
         token.setdefault('racerId', 'Unknown')
         token.setdefault('raceStarted', False)
 
-        # ✅ Starte Rennen bei erstem Besuch der Startlinie, aber ohne Rundenzählung
+        # Starte Rennen bei erstem Besuch der Startlinie, aber ohne Rundenzählung
         if SEGMENT_ID.startswith("start-and-goal"):
             if not token['raceStarted']:
                 token['raceStarted'] = True
                 print(f"🚀 Startsignal erhalten. Rennen beginnt für {token['racerId']}.")
             else:
-                # ✅ Jetzt ist es eine "Zieldurchfahrt" → Runde hochzählen
+                # Jetzt ist es eine "Zieldurchfahrt" → Runde hochzählen
                 token['labCount'] += 1
-                print(f"🔄 Neue Runde abgeschlossen! Aktuelle Runde: {token['labCount']} / {token['totalLaps']}")
+                print(f"Neue Runde abgeschlossen! Aktuelle Runde: {token['labCount']} / {token['totalLaps']}")
 
-        # ✅ Rennen beenden, wenn Max-Runden erreicht
-        # ✅ Rennen beenden, wenn Max-Runden erreicht
+        # Rennen beenden, wenn Max-Runden erreicht
+        # Rennen beenden, wenn Max-Runden erreicht
         if token['labCount'] >= token['totalLaps']:
             # Endzeit setzen (UTC)
             token['endTime'] = datetime.now(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00', 'Z')
@@ -78,27 +78,27 @@ try:
                 end = parser.isoparse(token['endTime'])
                 token['durationMs'] = int((end - start).total_seconds() * 1000)
             except Exception as e:
-                print(f"❌ Fehler bei der Zeitberechnung: {e}")
+                print(f"Fehler bei der Zeitberechnung: {e}")
                 token['durationMs'] = -1  # Fehlercode
 
-            print(f"🏁 [{SEGMENT_ID}] Rennen beendet für {token['racerId']} nach {token['labCount']} Runden.")
-            print(f"⏱️ Gesamtlaufzeit: {token['durationMs']} ms")
-            print(f"🔎 Finaler Token: {token}")
+            print(f"[{SEGMENT_ID}] Rennen beendet für {token['racerId']} nach {token['labCount']} Runden.")
+            print(f"Gesamtlaufzeit: {token['durationMs']} ms")
+            print(f"Finaler Token: {token}")
             continue  # Kein Weiterleiten mehr
 
 
         # Weiterleiten an die nächsten Segmente
         if not NEXT_TOPICS:
-            print(f"🏁 [{SEGMENT_ID}] End-Segment erreicht. Token: {token}")
+            print(f"[{SEGMENT_ID}] End-Segment erreicht. Token: {token}")
             continue
 
         for next_topic in NEXT_TOPICS:
             producer.send(next_topic, token)
-            print(f"📤 [{SEGMENT_ID}] Token weitergeleitet an {next_topic}")
+            print(f"[{SEGMENT_ID}] Token weitergeleitet an {next_topic}")
         producer.flush()
 
 except KeyboardInterrupt:
-    print(f"⏹️ [{SEGMENT_ID}] Stop durch Benutzer.")
+    print(f"[{SEGMENT_ID}] Stop durch Benutzer.")
 finally:
     consumer.close()
     producer.close()
