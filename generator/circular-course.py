@@ -15,9 +15,11 @@ def generate_tracks(num_tracks: int, length_of_track: int):
     for t in range(1, num_tracks + 1):
         track_id = str(t)
         segments = []
+         
+        start_segment_id = f"start-and-goal-{t}"
+        kaiser_segment_id = f"kaisergasse-{t}"
 
         # First segment: start-and-goal-t
-        start_segment_id = f"start-and-goal-{t}"
         if length_of_track == 1:
             # Edge case: track length is 1 => no "normal" segments, loops onto itself
             next_segments = [start_segment_id]
@@ -36,7 +38,7 @@ def generate_tracks(num_tracks: int, length_of_track: int):
             seg_id = f"segment-{t}-{c}"
             # If this is the last normal segment, it loops back to 'start-and-goal-t'
             if c == length_of_track - 1:
-                next_segs = [start_segment_id]
+                next_segs = [start_segment_id, kaiser_segment_id]
             else:
                 next_segs = [f"segment-{t}-{c+1}"]
 
@@ -46,6 +48,13 @@ def generate_tracks(num_tracks: int, length_of_track: int):
                 "nextSegments": next_segs
             }
             segments.append(segment)
+        
+        # Kaisergasse Segment (caesar greeting)        
+        segments.append({
+            "segmentId": kaiser_segment_id,
+            "type": "caesar-gate",
+            "nextSegments": [start_segment_id]
+        })
 
         track_definition = {
             "trackId": track_id,
