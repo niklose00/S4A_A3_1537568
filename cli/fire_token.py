@@ -1,6 +1,7 @@
 import os
 import argparse
 import json
+import time
 import uuid
 from datetime import datetime, timezone
 from kafka import KafkaProducer, errors as kafka_errors
@@ -12,15 +13,17 @@ def create_token(racer_id: str, track_id: str, total_laps: int) -> dict:
         "tokenId": str(uuid.uuid4()),
         "racerId": racer_id,
         "trackId": track_id,
-        "currentLap": 0,
+        "labCount": 0,
         "totalLaps": total_laps,
-        "timestamp": datetime.now(timezone.utc).isoformat()
+        "startTime": datetime.now(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00', 'Z'),
+        "endTime": None,
+        "durationMs": None 
     }
-    print(f"🪪 Token erstellt: {json.dumps(token, indent=2)}")
+    print(f"Token erstellt: {json.dumps(token, indent=2)}")
     return token
 
 def publish_token(track_id: str, racer_id: str, laps: int):
-    print(f"📡 Verbinde mit Kafka-Broker: {KAFKA_BROKER}")
+    print(f"Verbinde mit Kafka-Broker: {KAFKA_BROKER}")
     try:
         producer = KafkaProducer(
             bootstrap_servers=KAFKA_BROKER,
@@ -28,31 +31,31 @@ def publish_token(track_id: str, racer_id: str, laps: int):
             retries=3
         )
     except kafka_errors.KafkaError as e:
-        print(f"❌ Kafka-Verbindungsfehler: {e}")
+        print(f"Kafka-Verbindungsfehler: {e}")
         return
 
     token = create_token(racer_id, track_id, laps)
 
     # Debug-Ausgabe des Topic-Namens
     start_topic = f"race.{track_id}.segment.start-and-goal-{track_id}"
-    print(f"📝 Erwartetes Topic: {start_topic}")#
+    print(f"Erwartetes Topic: {start_topic}")#
     
     
     try:
-        print(f"🏎️ Sende Token für {racer_id} an Topic: {start_topic}")
+        print(f"Sende Token für {racer_id} an Topic: {start_topic}")
         future = producer.send(start_topic, value=token)
         record_metadata = future.get(timeout=10)
-        print(f"✅ Token gesendet an Partition {record_metadata.partition}, Offset {record_metadata.offset}")
+        print(f"Token gesendet an Partition {record_metadata.partition}, Offset {record_metadata.offset}")
     except kafka_errors.UnknownTopicOrPartitionError as e:
-        print(f"❌ Fehler: Topic '{start_topic}' existiert nicht! Kafka-Fehler: {e}")
+        print(f"Fehler: Topic '{start_topic}' existiert nicht! Kafka-Fehler: {e}")
     except kafka_errors.KafkaTimeoutError as e:
-        print(f"⏳ Kafka Timeout beim Senden: {e}")
+        print(f"Kafka Timeout beim Senden: {e}")
     except kafka_errors.KafkaError as e:
-        print(f"❌ Allgemeiner Kafka-Fehler beim Senden: {e}")
+        print(f"Allgemeiner Kafka-Fehler beim Senden: {e}")
     finally:
         producer.flush()
         producer.close()
-        print(f"✅ Producer geschlossen")
+        print(f"Producer geschlossen")
 
 def main():
     parser = argparse.ArgumentParser(description="🚀 Feuert einen Start-Token für einen Racer")
@@ -61,7 +64,7 @@ def main():
     parser.add_argument("--laps", type=int, default=3, help="Anzahl der Runden")
     args = parser.parse_args()
 
-    print(f"🔎 Starte Fire-Token mit Args: track={args.track}, racer={args.racer}, laps={args.laps}")
+    print(f"Starte Fire-Token mit Args: track={args.track}, racer={args.racer}, laps={args.laps}")
     publish_token(track_id=args.track, racer_id=args.racer, laps=args.laps)
 
 if __name__ == "__main__":
