@@ -1,7 +1,7 @@
 from kafka import KafkaProducer
 import json
 
-KAFKA_BROKER = "localhost:9092"   # Wenn du außerhalb des Containers bist!
+KAFKA_BROKER = "localhost:29092"   # Wenn du außerhalb des Containers bist!
 TOPIC = "race.1.segment.start-and-goal-1"
 
 producer = KafkaProducer(
