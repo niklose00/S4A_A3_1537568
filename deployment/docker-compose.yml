@@ -67,164 +67,17 @@ services:
     - zookeeper
     networks:
     - race-network
-  kafka-4:
-    image: bitnami/kafka:latest
-    ports:
-    - 9095:9092
-    - 29095:29092
-    environment:
-    - KAFKA_BROKER_ID=4
-    - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
-    - ALLOW_PLAINTEXT_LISTENER=yes
-    - KAFKA_CFG_LISTENERS=INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092
-    - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka-4:9092,EXTERNAL://localhost:29095
-    - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
-    - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
-    - KAFKA_CFG_DEFAULT_REPLICATION_FACTOR=3
-    - KAFKA_CFG_MIN_INSYNC_REPLICAS=2
-    - KAFKA_CFG_NUM_PARTITIONS=3
-    depends_on:
-    - zookeeper
-    networks:
-    - race-network
-  kafka-5:
-    image: bitnami/kafka:latest
-    ports:
-    - 9096:9092
-    - 29096:29092
-    environment:
-    - KAFKA_BROKER_ID=5
-    - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
-    - ALLOW_PLAINTEXT_LISTENER=yes
-    - KAFKA_CFG_LISTENERS=INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092
-    - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka-5:9092,EXTERNAL://localhost:29096
-    - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
-    - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
-    - KAFKA_CFG_DEFAULT_REPLICATION_FACTOR=3
-    - KAFKA_CFG_MIN_INSYNC_REPLICAS=2
-    - KAFKA_CFG_NUM_PARTITIONS=3
-    depends_on:
-    - zookeeper
-    networks:
-    - race-network
-  kafka-6:
-    image: bitnami/kafka:latest
-    ports:
-    - 9097:9092
-    - 29097:29092
-    environment:
-    - KAFKA_BROKER_ID=6
-    - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
-    - ALLOW_PLAINTEXT_LISTENER=yes
-    - KAFKA_CFG_LISTENERS=INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092
-    - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka-6:9092,EXTERNAL://localhost:29097
-    - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
-    - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
-    - KAFKA_CFG_DEFAULT_REPLICATION_FACTOR=3
-    - KAFKA_CFG_MIN_INSYNC_REPLICAS=2
-    - KAFKA_CFG_NUM_PARTITIONS=3
-    depends_on:
-    - zookeeper
-    networks:
-    - race-network
-  kafka-7:
-    image: bitnami/kafka:latest
-    ports:
-    - 9098:9092
-    - 29098:29092
-    environment:
-    - KAFKA_BROKER_ID=7
-    - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
-    - ALLOW_PLAINTEXT_LISTENER=yes
-    - KAFKA_CFG_LISTENERS=INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092
-    - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka-7:9092,EXTERNAL://localhost:29098
-    - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
-    - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
-    - KAFKA_CFG_DEFAULT_REPLICATION_FACTOR=3
-    - KAFKA_CFG_MIN_INSYNC_REPLICAS=2
-    - KAFKA_CFG_NUM_PARTITIONS=3
-    depends_on:
-    - zookeeper
-    networks:
-    - race-network
-  kafka-8:
-    image: bitnami/kafka:latest
-    ports:
-    - 9099:9092
-    - 29099:29092
-    environment:
-    - KAFKA_BROKER_ID=8
-    - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
-    - ALLOW_PLAINTEXT_LISTENER=yes
-    - KAFKA_CFG_LISTENERS=INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092
-    - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka-8:9092,EXTERNAL://localhost:29099
-    - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
-    - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
-    - KAFKA_CFG_DEFAULT_REPLICATION_FACTOR=3
-    - KAFKA_CFG_MIN_INSYNC_REPLICAS=2
-    - KAFKA_CFG_NUM_PARTITIONS=3
-    depends_on:
-    - zookeeper
-    networks:
-    - race-network
-  kafka-9:
-    image: bitnami/kafka:latest
-    ports:
-    - 9100:9092
-    - 29100:29092
-    environment:
-    - KAFKA_BROKER_ID=9
-    - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
-    - ALLOW_PLAINTEXT_LISTENER=yes
-    - KAFKA_CFG_LISTENERS=INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092
-    - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka-9:9092,EXTERNAL://localhost:29100
-    - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
-    - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
-    - KAFKA_CFG_DEFAULT_REPLICATION_FACTOR=3
-    - KAFKA_CFG_MIN_INSYNC_REPLICAS=2
-    - KAFKA_CFG_NUM_PARTITIONS=3
-    depends_on:
-    - zookeeper
-    networks:
-    - race-network
-  kafka-10:
-    image: bitnami/kafka:latest
-    ports:
-    - 9101:9092
-    - 29101:29092
-    environment:
-    - KAFKA_BROKER_ID=10
-    - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
-    - ALLOW_PLAINTEXT_LISTENER=yes
-    - KAFKA_CFG_LISTENERS=INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092
-    - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka-10:9092,EXTERNAL://localhost:29101
-    - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
-    - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
-    - KAFKA_CFG_DEFAULT_REPLICATION_FACTOR=3
-    - KAFKA_CFG_MIN_INSYNC_REPLICAS=2
-    - KAFKA_CFG_NUM_PARTITIONS=3
-    depends_on:
-    - zookeeper
-    networks:
-    - race-network
   race-1-start-and-goal-1:
     image: segment-worker:latest
     environment:
     - TRACK_ID=1
     - SEGMENT_ID=start-and-goal-1
     - NEXT_SEGMENTS=segment-1-1
-    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092,kafka-4:9092,kafka-5:9092,kafka-6:9092,kafka-7:9092,kafka-8:9092,kafka-9:9092,kafka-10:9092
+    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092
     depends_on:
     - kafka-1
     - kafka-2
     - kafka-3
-    - kafka-4
-    - kafka-5
-    - kafka-6
-    - kafka-7
-    - kafka-8
-    - kafka-9
-    - kafka-10
     networks:
     - race-network
   race-1-segment-1-1:
@@ -233,18 +86,11 @@ services:
     - TRACK_ID=1
     - SEGMENT_ID=segment-1-1
     - NEXT_SEGMENTS=segment-1-2
-    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092,kafka-4:9092,kafka-5:9092,kafka-6:9092,kafka-7:9092,kafka-8:9092,kafka-9:9092,kafka-10:9092
+    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092
     depends_on:
     - kafka-1
     - kafka-2
     - kafka-3
-    - kafka-4
-    - kafka-5
-    - kafka-6
-    - kafka-7
-    - kafka-8
-    - kafka-9
-    - kafka-10
     networks:
     - race-network
   race-1-segment-1-2:
@@ -253,18 +99,11 @@ services:
     - TRACK_ID=1
     - SEGMENT_ID=segment-1-2
     - NEXT_SEGMENTS=segment-1-3
-    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092,kafka-4:9092,kafka-5:9092,kafka-6:9092,kafka-7:9092,kafka-8:9092,kafka-9:9092,kafka-10:9092
+    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092
     depends_on:
     - kafka-1
     - kafka-2
     - kafka-3
-    - kafka-4
-    - kafka-5
-    - kafka-6
-    - kafka-7
-    - kafka-8
-    - kafka-9
-    - kafka-10
     networks:
     - race-network
   race-1-segment-1-3:
@@ -273,18 +112,11 @@ services:
     - TRACK_ID=1
     - SEGMENT_ID=segment-1-3
     - NEXT_SEGMENTS=segment-1-4
-    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092,kafka-4:9092,kafka-5:9092,kafka-6:9092,kafka-7:9092,kafka-8:9092,kafka-9:9092,kafka-10:9092
+    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092
     depends_on:
     - kafka-1
     - kafka-2
     - kafka-3
-    - kafka-4
-    - kafka-5
-    - kafka-6
-    - kafka-7
-    - kafka-8
-    - kafka-9
-    - kafka-10
     networks:
     - race-network
   race-1-segment-1-4:
@@ -293,18 +125,11 @@ services:
     - TRACK_ID=1
     - SEGMENT_ID=segment-1-4
     - NEXT_SEGMENTS=start-and-goal-1
-    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092,kafka-4:9092,kafka-5:9092,kafka-6:9092,kafka-7:9092,kafka-8:9092,kafka-9:9092,kafka-10:9092
+    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092
     depends_on:
     - kafka-1
     - kafka-2
     - kafka-3
-    - kafka-4
-    - kafka-5
-    - kafka-6
-    - kafka-7
-    - kafka-8
-    - kafka-9
-    - kafka-10
     networks:
     - race-network
   race-2-start-and-goal-2:
@@ -313,18 +138,11 @@ services:
     - TRACK_ID=2
     - SEGMENT_ID=start-and-goal-2
     - NEXT_SEGMENTS=segment-2-1
-    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092,kafka-4:9092,kafka-5:9092,kafka-6:9092,kafka-7:9092,kafka-8:9092,kafka-9:9092,kafka-10:9092
+    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092
     depends_on:
     - kafka-1
     - kafka-2
     - kafka-3
-    - kafka-4
-    - kafka-5
-    - kafka-6
-    - kafka-7
-    - kafka-8
-    - kafka-9
-    - kafka-10
     networks:
     - race-network
   race-2-segment-2-1:
@@ -333,18 +151,11 @@ services:
     - TRACK_ID=2
     - SEGMENT_ID=segment-2-1
     - NEXT_SEGMENTS=segment-2-2
-    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092,kafka-4:9092,kafka-5:9092,kafka-6:9092,kafka-7:9092,kafka-8:9092,kafka-9:9092,kafka-10:9092
+    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092
     depends_on:
     - kafka-1
     - kafka-2
     - kafka-3
-    - kafka-4
-    - kafka-5
-    - kafka-6
-    - kafka-7
-    - kafka-8
-    - kafka-9
-    - kafka-10
     networks:
     - race-network
   race-2-segment-2-2:
@@ -353,18 +164,11 @@ services:
     - TRACK_ID=2
     - SEGMENT_ID=segment-2-2
     - NEXT_SEGMENTS=segment-2-3
-    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092,kafka-4:9092,kafka-5:9092,kafka-6:9092,kafka-7:9092,kafka-8:9092,kafka-9:9092,kafka-10:9092
+    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092
     depends_on:
     - kafka-1
     - kafka-2
     - kafka-3
-    - kafka-4
-    - kafka-5
-    - kafka-6
-    - kafka-7
-    - kafka-8
-    - kafka-9
-    - kafka-10
     networks:
     - race-network
   race-2-segment-2-3:
@@ -373,18 +177,11 @@ services:
     - TRACK_ID=2
     - SEGMENT_ID=segment-2-3
     - NEXT_SEGMENTS=segment-2-4
-    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092,kafka-4:9092,kafka-5:9092,kafka-6:9092,kafka-7:9092,kafka-8:9092,kafka-9:9092,kafka-10:9092
+    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092
     depends_on:
     - kafka-1
     - kafka-2
     - kafka-3
-    - kafka-4
-    - kafka-5
-    - kafka-6
-    - kafka-7
-    - kafka-8
-    - kafka-9
-    - kafka-10
     networks:
     - race-network
   race-2-segment-2-4:
@@ -393,18 +190,11 @@ services:
     - TRACK_ID=2
     - SEGMENT_ID=segment-2-4
     - NEXT_SEGMENTS=start-and-goal-2
-    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092,kafka-4:9092,kafka-5:9092,kafka-6:9092,kafka-7:9092,kafka-8:9092,kafka-9:9092,kafka-10:9092
+    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092
     depends_on:
     - kafka-1
     - kafka-2
     - kafka-3
-    - kafka-4
-    - kafka-5
-    - kafka-6
-    - kafka-7
-    - kafka-8
-    - kafka-9
-    - kafka-10
     networks:
     - race-network
   race-3-start-and-goal-3:
@@ -413,18 +203,11 @@ services:
     - TRACK_ID=3
     - SEGMENT_ID=start-and-goal-3
     - NEXT_SEGMENTS=segment-3-1
-    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092,kafka-4:9092,kafka-5:9092,kafka-6:9092,kafka-7:9092,kafka-8:9092,kafka-9:9092,kafka-10:9092
+    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092
     depends_on:
     - kafka-1
     - kafka-2
     - kafka-3
-    - kafka-4
-    - kafka-5
-    - kafka-6
-    - kafka-7
-    - kafka-8
-    - kafka-9
-    - kafka-10
     networks:
     - race-network
   race-3-segment-3-1:
@@ -433,18 +216,11 @@ services:
     - TRACK_ID=3
     - SEGMENT_ID=segment-3-1
     - NEXT_SEGMENTS=segment-3-2
-    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092,kafka-4:9092,kafka-5:9092,kafka-6:9092,kafka-7:9092,kafka-8:9092,kafka-9:9092,kafka-10:9092
+    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092
     depends_on:
     - kafka-1
     - kafka-2
     - kafka-3
-    - kafka-4
-    - kafka-5
-    - kafka-6
-    - kafka-7
-    - kafka-8
-    - kafka-9
-    - kafka-10
     networks:
     - race-network
   race-3-segment-3-2:
@@ -453,18 +229,11 @@ services:
     - TRACK_ID=3
     - SEGMENT_ID=segment-3-2
     - NEXT_SEGMENTS=segment-3-3
-    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092,kafka-4:9092,kafka-5:9092,kafka-6:9092,kafka-7:9092,kafka-8:9092,kafka-9:9092,kafka-10:9092
+    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092
     depends_on:
     - kafka-1
     - kafka-2
     - kafka-3
-    - kafka-4
-    - kafka-5
-    - kafka-6
-    - kafka-7
-    - kafka-8
-    - kafka-9
-    - kafka-10
     networks:
     - race-network
   race-3-segment-3-3:
@@ -473,18 +242,11 @@ services:
     - TRACK_ID=3
     - SEGMENT_ID=segment-3-3
     - NEXT_SEGMENTS=segment-3-4
-    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092,kafka-4:9092,kafka-5:9092,kafka-6:9092,kafka-7:9092,kafka-8:9092,kafka-9:9092,kafka-10:9092
+    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092
     depends_on:
     - kafka-1
     - kafka-2
     - kafka-3
-    - kafka-4
-    - kafka-5
-    - kafka-6
-    - kafka-7
-    - kafka-8
-    - kafka-9
-    - kafka-10
     networks:
     - race-network
   race-3-segment-3-4:
@@ -493,18 +255,11 @@ services:
     - TRACK_ID=3
     - SEGMENT_ID=segment-3-4
     - NEXT_SEGMENTS=start-and-goal-3
-    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092,kafka-4:9092,kafka-5:9092,kafka-6:9092,kafka-7:9092,kafka-8:9092,kafka-9:9092,kafka-10:9092
+    - KAFKA_BROKER=kafka-1:9092,kafka-2:9092,kafka-3:9092
     depends_on:
     - kafka-1
     - kafka-2
     - kafka-3
-    - kafka-4
-    - kafka-5
-    - kafka-6
-    - kafka-7
-    - kafka-8
-    - kafka-9
-    - kafka-10
     networks:
     - race-network
 networks:

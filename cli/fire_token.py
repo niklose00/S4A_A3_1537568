@@ -6,7 +6,8 @@ import uuid
 from datetime import datetime, timezone
 from kafka import KafkaProducer, errors as kafka_errors
 
-KAFKA_BROKER = "localhost:29092"
+# KAFKA_BROKERS = ["localhost:29092", "localhost:29093", "localhost:29094"]
+KAFKA_BROKERS = "localhost:29092"
 
 def create_token(racer_id: str, track_id: str, total_laps: int) -> dict:
     token = {
@@ -23,10 +24,10 @@ def create_token(racer_id: str, track_id: str, total_laps: int) -> dict:
     return token
 
 def publish_token(track_id: str, racer_id: str, laps: int):
-    print(f"Verbinde mit Kafka-Broker: {KAFKA_BROKER}")
+    print(f"Verbinde mit Kafka-Broker: {KAFKA_BROKERS}")
     try:
         producer = KafkaProducer(
-            bootstrap_servers=KAFKA_BROKER,
+            bootstrap_servers=KAFKA_BROKERS,
             value_serializer=lambda v: json.dumps(v).encode('utf-8'),
             retries=3
         )
