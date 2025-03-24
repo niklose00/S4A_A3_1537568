@@ -17,29 +17,37 @@ def generate_compose(json_path, output_path):
         }
     }
 
-    # Kafka + Zookeeper Basisdienste
+    # Zookeeper
     compose['services']['zookeeper'] = {
         'image': 'bitnami/zookeeper:latest',
         'ports': ['2181:2181'],
         'environment': [
-        'ALLOW_ANONYMOUS_LOGIN=yes'
-    ],
+            'ALLOW_ANONYMOUS_LOGIN=yes'
+        ],
         'networks': ['race-network']
     }
 
+    # Kafka mit INTERN und EXTERN Listener
     compose['services']['kafka'] = {
         'image': 'bitnami/kafka:latest',
-        'ports': ['9092:9092'],
+        'ports': [
+            '9092:9092',   # Optional für internen Zugriff debuggen
+            '29092:29092'  # Externer Zugriff (Host -> Kafka)
+        ],
         'environment': [
             'KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181',
             'ALLOW_PLAINTEXT_LISTENER=yes',
-            'KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092'
+            # Parallele Listener-Config
+            'KAFKA_CFG_LISTENERS=INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092',
+            'KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka:9092,EXTERNAL://localhost:29092',
+            'KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT',
+            'KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL'
         ],
         'depends_on': ['zookeeper'],
         'networks': ['race-network']
     }
 
-    # Iteriere über alle Tracks und Segmente, erzeuge pro Segment einen Service
+    # Segment-Worker-Services
     for track in track_data.get('tracks', []):
         track_id = track.get('trackId')
         for segment in track.get('segments', []):
@@ -53,13 +61,13 @@ def generate_compose(json_path, output_path):
                     f"TRACK_ID={track_id}",
                     f"SEGMENT_ID={segment_id}",
                     f"NEXT_SEGMENTS={next_segments}",
-                    "KAFKA_BROKER=kafka:9092"
+                    "KAFKA_BROKER=kafka:9092"  # INTERNER Zugriff!
                 ],
                 'depends_on': ['kafka'],
                 'networks': ['race-network']
             }
 
-    # Schreibe das docker-compose.yml File
+    # Schreibe die docker-compose.yml
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, 'w') as f:
         yaml.dump(compose, f, sort_keys=False)

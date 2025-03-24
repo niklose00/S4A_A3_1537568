@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime, timezone
 from kafka import KafkaProducer, errors as kafka_errors
 
-KAFKA_BROKER = "localhost:9092"
+KAFKA_BROKER = "localhost:29092"
 
 def create_token(racer_id: str, track_id: str, total_laps: int) -> dict:
     token = {
@@ -24,7 +24,6 @@ def publish_token(track_id: str, racer_id: str, laps: int):
     try:
         producer = KafkaProducer(
             bootstrap_servers=KAFKA_BROKER,
-            api_version=(0, 11, 5),
             value_serializer=lambda v: json.dumps(v).encode('utf-8'),
             retries=3
         )
@@ -36,8 +35,9 @@ def publish_token(track_id: str, racer_id: str, laps: int):
 
     # Debug-Ausgabe des Topic-Namens
     start_topic = f"race.{track_id}.segment.start-and-goal-{track_id}"
-    print(f"📝 Erwartetes Topic: {start_topic}")
-
+    print(f"📝 Erwartetes Topic: {start_topic}")#
+    
+    
     try:
         print(f"🏎️ Sende Token für {racer_id} an Topic: {start_topic}")
         future = producer.send(start_topic, value=token)

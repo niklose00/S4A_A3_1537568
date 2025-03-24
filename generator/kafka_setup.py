@@ -1,7 +1,7 @@
 import json
 from topic_extractor import extract_kafka_topics_from_json
 
-KAFKA_BOOTSTRAP_SERVER = "localhost:9092"
+KAFKA_BOOTSTRAP_SERVER = "kafka:9092"
 DEFAULT_PARTITIONS = 1
 DEFAULT_REPLICATION = 1
 
