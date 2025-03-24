@@ -1,0 +1,31 @@
+# Python __pycache__ und Compiled-Files
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.pyd
+
+# Environment
+venv/
+.env
+.env.*
+
+# VSCode Settings
+.vscode/
+
+# Docker / Container
+*.log
+docker-compose.override.yml
+
+# OS-Spezifisch
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebooks Checkpoints
+.ipynb_checkpoints/
+
+# Kafka & Deployment
+deployment/kafka-logs/

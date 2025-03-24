@@ -1,0 +1,189 @@
+services:
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    ports:
+    - 2181:2181
+    environment:
+    - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+    - race-network
+  kafka:
+    image: bitnami/kafka:latest
+    ports:
+    - 9092:9092
+    environment:
+    - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+    - ALLOW_PLAINTEXT_LISTENER=yes
+    - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+    depends_on:
+    - zookeeper
+    networks:
+    - race-network
+  race-1-start-and-goal-1:
+    image: segment-worker:latest
+    environment:
+    - TRACK_ID=1
+    - SEGMENT_ID=start-and-goal-1
+    - NEXT_SEGMENTS=segment-1-1
+    - KAFKA_BROKER=kafka:9092
+    depends_on:
+    - kafka
+    networks:
+    - race-network
+  race-1-segment-1-1:
+    image: segment-worker:latest
+    environment:
+    - TRACK_ID=1
+    - SEGMENT_ID=segment-1-1
+    - NEXT_SEGMENTS=segment-1-2
+    - KAFKA_BROKER=kafka:9092
+    depends_on:
+    - kafka
+    networks:
+    - race-network
+  race-1-segment-1-2:
+    image: segment-worker:latest
+    environment:
+    - TRACK_ID=1
+    - SEGMENT_ID=segment-1-2
+    - NEXT_SEGMENTS=segment-1-3
+    - KAFKA_BROKER=kafka:9092
+    depends_on:
+    - kafka
+    networks:
+    - race-network
+  race-1-segment-1-3:
+    image: segment-worker:latest
+    environment:
+    - TRACK_ID=1
+    - SEGMENT_ID=segment-1-3
+    - NEXT_SEGMENTS=segment-1-4
+    - KAFKA_BROKER=kafka:9092
+    depends_on:
+    - kafka
+    networks:
+    - race-network
+  race-1-segment-1-4:
+    image: segment-worker:latest
+    environment:
+    - TRACK_ID=1
+    - SEGMENT_ID=segment-1-4
+    - NEXT_SEGMENTS=start-and-goal-1
+    - KAFKA_BROKER=kafka:9092
+    depends_on:
+    - kafka
+    networks:
+    - race-network
+  race-2-start-and-goal-2:
+    image: segment-worker:latest
+    environment:
+    - TRACK_ID=2
+    - SEGMENT_ID=start-and-goal-2
+    - NEXT_SEGMENTS=segment-2-1
+    - KAFKA_BROKER=kafka:9092
+    depends_on:
+    - kafka
+    networks:
+    - race-network
+  race-2-segment-2-1:
+    image: segment-worker:latest
+    environment:
+    - TRACK_ID=2
+    - SEGMENT_ID=segment-2-1
+    - NEXT_SEGMENTS=segment-2-2
+    - KAFKA_BROKER=kafka:9092
+    depends_on:
+    - kafka
+    networks:
+    - race-network
+  race-2-segment-2-2:
+    image: segment-worker:latest
+    environment:
+    - TRACK_ID=2
+    - SEGMENT_ID=segment-2-2
+    - NEXT_SEGMENTS=segment-2-3
+    - KAFKA_BROKER=kafka:9092
+    depends_on:
+    - kafka
+    networks:
+    - race-network
+  race-2-segment-2-3:
+    image: segment-worker:latest
+    environment:
+    - TRACK_ID=2
+    - SEGMENT_ID=segment-2-3
+    - NEXT_SEGMENTS=segment-2-4
+    - KAFKA_BROKER=kafka:9092
+    depends_on:
+    - kafka
+    networks:
+    - race-network
+  race-2-segment-2-4:
+    image: segment-worker:latest
+    environment:
+    - TRACK_ID=2
+    - SEGMENT_ID=segment-2-4
+    - NEXT_SEGMENTS=start-and-goal-2
+    - KAFKA_BROKER=kafka:9092
+    depends_on:
+    - kafka
+    networks:
+    - race-network
+  race-3-start-and-goal-3:
+    image: segment-worker:latest
+    environment:
+    - TRACK_ID=3
+    - SEGMENT_ID=start-and-goal-3
+    - NEXT_SEGMENTS=segment-3-1
+    - KAFKA_BROKER=kafka:9092
+    depends_on:
+    - kafka
+    networks:
+    - race-network
+  race-3-segment-3-1:
+    image: segment-worker:latest
+    environment:
+    - TRACK_ID=3
+    - SEGMENT_ID=segment-3-1
+    - NEXT_SEGMENTS=segment-3-2
+    - KAFKA_BROKER=kafka:9092
+    depends_on:
+    - kafka
+    networks:
+    - race-network
+  race-3-segment-3-2:
+    image: segment-worker:latest
+    environment:
+    - TRACK_ID=3
+    - SEGMENT_ID=segment-3-2
+    - NEXT_SEGMENTS=segment-3-3
+    - KAFKA_BROKER=kafka:9092
+    depends_on:
+    - kafka
+    networks:
+    - race-network
+  race-3-segment-3-3:
+    image: segment-worker:latest
+    environment:
+    - TRACK_ID=3
+    - SEGMENT_ID=segment-3-3
+    - NEXT_SEGMENTS=segment-3-4
+    - KAFKA_BROKER=kafka:9092
+    depends_on:
+    - kafka
+    networks:
+    - race-network
+  race-3-segment-3-4:
+    image: segment-worker:latest
+    environment:
+    - TRACK_ID=3
+    - SEGMENT_ID=segment-3-4
+    - NEXT_SEGMENTS=start-and-goal-3
+    - KAFKA_BROKER=kafka:9092
+    depends_on:
+    - kafka
+    networks:
+    - race-network
+networks:
+  race-network:
+    driver: bridge

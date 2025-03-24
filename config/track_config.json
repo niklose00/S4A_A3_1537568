@@ -79,6 +79,46 @@
           ]
         }
       ]
+    },
+    {
+      "trackId": "3",
+      "segments": [
+        {
+          "segmentId": "start-and-goal-3",
+          "type": "start-goal",
+          "nextSegments": [
+            "segment-3-1"
+          ]
+        },
+        {
+          "segmentId": "segment-3-1",
+          "type": "normal",
+          "nextSegments": [
+            "segment-3-2"
+          ]
+        },
+        {
+          "segmentId": "segment-3-2",
+          "type": "normal",
+          "nextSegments": [
+            "segment-3-3"
+          ]
+        },
+        {
+          "segmentId": "segment-3-3",
+          "type": "normal",
+          "nextSegments": [
+            "segment-3-4"
+          ]
+        },
+        {
+          "segmentId": "segment-3-4",
+          "type": "normal",
+          "nextSegments": [
+            "start-and-goal-3"
+          ]
+        }
+      ]
     }
   ]
 }
