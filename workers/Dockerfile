@@ -12,4 +12,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY segment_worker.py .
 
 # Standard-EntryPoint → Der Worker startet
-CMD ["python", "segment_worker.py"]
+CMD ["python", "-u", "segment_worker.py"]
