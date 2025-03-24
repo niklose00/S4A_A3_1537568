@@ -6,8 +6,7 @@ import uuid
 from datetime import datetime, timezone
 from kafka import KafkaProducer, errors as kafka_errors
 
-# KAFKA_BROKERS = ["localhost:29092", "localhost:29093", "localhost:29094"]
-KAFKA_BROKERS = "localhost:29092"
+KAFKA_BROKERS = ["localhost:29092", "localhost:29093", "localhost:29094"]
 
 def create_token(racer_id: str, track_id: str, total_laps: int) -> dict:
     token = {
