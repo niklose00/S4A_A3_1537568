@@ -12,10 +12,11 @@ def run(cmd):
         sys.exit(1)
 
 def main():
-    parser = argparse.ArgumentParser(description="🏁 Starte das Wagenrennen mit sicherem Kafka-Setup")
+    parser = argparse.ArgumentParser(description="Starte das Wagenrennen mit sicherem Kafka-Setup")
     parser.add_argument("--tracks", type=int, required=True, help="Anzahl der Tracks / Rennfahrer")
     parser.add_argument("--segments", type=int, required=True, help="Anzahl der Segmente pro Track")
     parser.add_argument("--laps", type=int, default=3, help="Anzahl der Runden")
+    parser.add_argument("--brokers", type=int, default=3, help="Anzahl der Broker")
     args = parser.parse_args()
 
     # 1Strecken-JSON generieren
@@ -24,11 +25,12 @@ def main():
 
     # 2 Kafka-Setup-Skript generieren
     print("Erzeuge Kafka-Setup-Skript...")
-    run(f"python3 generator/kafka_setup.py")
+    run(f"python3 generator/kafka_setup.py --brokers {args.brokers}")
     
     # 3 Docker-Compose-Datei generieren
     print("Generiere Docker-Compose-Datei...")
-    run("python3 generator/generate_docker_compose.py")
+    run(f"python3 generator/generate_docker_compose.py --brokers {args.brokers}")
+
 
     # 4 Existenz der Docker-Compose-Datei prüfen
     if not os.path.exists("deployment/docker-compose.yml"):
@@ -45,7 +47,8 @@ def main():
 
     # 7 Kafka-Container-ID holen
     print("Ermittle Kafka-Container...")
-    kafka_container_id = os.popen("docker-compose -f deployment/docker-compose.yml ps -q kafka").read().strip()
+    # kafka_container_id = os.popen("docker-compose -f deployment/docker-compose.yml ps -q kafka-1").read().strip()
+    kafka_container_id = os.popen("docker-compose -f deployment/docker-compose.yml ps -q | head -n 1").read().strip()
     if not kafka_container_id:
         print("Kafka-Container nicht gefunden. Abbruch.")
         sys.exit(1)

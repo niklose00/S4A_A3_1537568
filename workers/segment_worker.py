@@ -6,10 +6,12 @@ from kafka import KafkaConsumer, KafkaProducer
 from dateutil import parser
 
 # ENV-Variablen laden
-KAFKA_BROKER = os.getenv("KAFKA_BROKER", "kafka:9092")
+KAFKA_BROKER = os.getenv("KAFKA_BROKER", "kafka-1:9092,kafka-2:9092,kafka-3:9092").split(",")
 TRACK_ID = os.getenv("TRACK_ID")
 SEGMENT_ID = os.getenv("SEGMENT_ID")
 NEXT_SEGMENTS = os.getenv("NEXT_SEGMENTS", "")
+
+print(NEXT_SEGMENTS)
 
 if not TRACK_ID or not SEGMENT_ID:
     raise ValueError("ERROR: TRACK_ID und SEGMENT_ID müssen als Umgebungsvariablen gesetzt sein!")
@@ -23,16 +25,16 @@ print(f"Weiterleitung an: {NEXT_TOPICS if NEXT_TOPICS else 'End-Segment (keine W
 # Kafka-Consumer und Producer mit Retry
 for i in range(10):
     try:
-        print(f"⏳ Verbindung zu Kafka-Broker: {KAFKA_BROKER} (Versuch {i+1})")
+        print(f"Verbindung zu Kafka-Broker: {KAFKA_BROKER} (Versuch {i+1})")
         consumer = KafkaConsumer(
             TOPIC_NAME,
-            bootstrap_servers=[KAFKA_BROKER],
+            bootstrap_servers=KAFKA_BROKER,
             auto_offset_reset='earliest',
             group_id=f"group-{TRACK_ID}-{SEGMENT_ID}",
             value_deserializer=lambda m: json.loads(m.decode('utf-8'))
         )
         producer = KafkaProducer(
-            bootstrap_servers=[KAFKA_BROKER],
+            bootstrap_servers=KAFKA_BROKER,
             value_serializer=lambda v: json.dumps(v).encode('utf-8')
         )
         print("Kafka verbunden.")
@@ -65,7 +67,6 @@ try:
                 token['labCount'] += 1
                 print(f"Neue Runde abgeschlossen! Aktuelle Runde: {token['labCount']} / {token['totalLaps']}")
 
-        # Rennen beenden, wenn Max-Runden erreicht
         # Rennen beenden, wenn Max-Runden erreicht
         if token['labCount'] >= token['totalLaps']:
             # Endzeit setzen (UTC)

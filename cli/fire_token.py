@@ -58,7 +58,7 @@ def publish_token(track_id: str, racer_id: str, laps: int):
         print(f"Producer geschlossen")
 
 def main():
-    parser = argparse.ArgumentParser(description="🚀 Feuert einen Start-Token für einen Racer")
+    parser = argparse.ArgumentParser(description="Feuert einen Start-Token für einen Racer")
     parser.add_argument("--track", required=True, help="Track ID (z.B. 1)")
     parser.add_argument("--racer", required=True, help="Racer ID (z.B. R1)")
     parser.add_argument("--laps", type=int, default=3, help="Anzahl der Runden")
